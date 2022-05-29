@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     private let numberFormatter = NumberFormatter()
     private let zero = "0"
     private let emptyText = ""
-    private var calculateStackCount = 0
+    private var alreadyCalculatedStackCount = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,10 +58,10 @@ class ViewController: UIViewController {
         currentOperatorLabel?.text = emptyText
         
         guard let historyStackView = historyStackView else { return }
-        formula = ExpressionParser.parse(from: generateTextData(from: historyStackView, start: calculateStackCount))
+        formula = ExpressionParser.parse(from: fetchTextData(from: historyStackView, start: alreadyCalculatedStackCount))
         
         guard let existFormula = formula else { return }
-        calculateStackCount += existFormula.operands.count
+        alreadyCalculatedStackCount += existFormula.operands.count
         
         do {
             let result = try formula?.result()
@@ -87,7 +87,7 @@ class ViewController: UIViewController {
         
         switch sender.currentTitle {
         case "AC":
-            calculateStackCount = 0
+            alreadyCalculatedStackCount = 0
             screenLabel?.text = zero
             currentOperatorLabel?.text = emptyText
             removeAllIn(stack: historyStackView)
@@ -152,7 +152,7 @@ class ViewController: UIViewController {
                                        animated: true)
     }
     
-    private func generateTextData(from stackView: UIStackView, start: Int) -> String {
+    private func fetchTextData(from stackView: UIStackView, start: Int) -> String {
         var textData = emptyText
         for subStackView in stackView.arrangedSubviews[start...] {
             subStackView.subviews.forEach {
