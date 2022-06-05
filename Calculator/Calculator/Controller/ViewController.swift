@@ -59,6 +59,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction private func operatorButtonDidTapped(_ sender: UIButton) {
+        guard screenLabel?.text != NameSpace.nanError else { allClear(); return }
         
         if screenLabel?.text != NameSpace.zero {
             add(generateStackView(), to: historyStackView)
@@ -102,14 +103,8 @@ class ViewController: UIViewController {
     
     @IBAction private func functionButtonDidTapped(_ sender: UIButton) {
         
-        guard let historyStackView = historyStackView else { return }
-        
         switch sender.currentTitle {
         case "AC":
-            alreadyCalculatedStackCount = 0
-            screenLabel?.text = zero
-            currentOperatorLabel?.text = emptyText
-            removeAllIn(stack: historyStackView)
             allClear()
         case "⁺⁄₋":
             guard let operand = screenLabel?.text else { return }
