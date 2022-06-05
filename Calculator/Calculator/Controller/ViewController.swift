@@ -25,6 +25,7 @@ class ViewController: UIViewController {
         numberFormatter.numberStyle = .decimal
         numberFormatter.maximumFractionDigits = -2
         numberFormatter.maximumIntegerDigits = 20
+        screenLabel?.text = zero
         removeAllIn(stack: historyStackView!)
     }
     //MARK: - buttons
@@ -45,6 +46,8 @@ class ViewController: UIViewController {
         
         if screenLabel?.text != zero {
             add(generateStackView(), to: historyStackView)
+        } else {
+            return
         }
         currentOperatorLabel?.text = sender.currentTitle
         screenLabel?.text = zero
