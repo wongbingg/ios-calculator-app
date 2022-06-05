@@ -120,6 +120,38 @@
 <img src="https://i.imgur.com/c7G71QF.gif" width="200" height="400"/><img src="https://i.imgur.com/xBp50Dd.png" width="25" height="400"/><img src="https://i.imgur.com/JirfoPe.gif" width="200" height="400"/><img src="https://i.imgur.com/xBp50Dd.png" width="25" height="400"/><img src="https://i.imgur.com/iXxQRBa.gif" width="200" height="400"/>
 
 
-## 고민한 점 & 궁금한 점
+##🛠 Trouble Shooting
+
+### - "00"버튼 탭할 때 00으로 표시되는 오류
+screenLabel 이 "0" 인 상태에서 "00" 버튼 탭시 00으로 바뀌는 오류 ,
+"00" 버튼을 operandButtonDidTapped() 에서 분리하여 따로 만들어 주었다. 
+그 안에는 screenLabel 에 0이 있을 때는 return 하도록 guard문 처리 해주었다.
+**해결**
+
+### - "." 버튼이 연속적으로 눌리는 오류
+"." 버튼이 여러번 눌릴 수 있어 숫자가 아닌 값을 만들어낸다. 
+"." 버튼이 한번만 눌릴 수 있도록 screenLabel 이 "." 버튼을 포함하고 있으면 dotButtonDidTapped() 를 바로 return 하도록 guard문 처리 해주었다.
+**해결** 
+
+### - "NaN" 오류발생 시 계산이 이어지는 오류 
+"NaN" 오류가 발생했을 시, 아무버튼이나 누르면 초기화 되도록 버그를 수정했다 .
+**해결** 
+
+### - "0." 이후 "0" 버튼 또는 "00" 버튼을 탭할 시 , "0"으로 변하는 오류
+"0." 이후 0을 눌러 "0.0001" 같은 숫자를 표현할 수 없는 오류가 발생했다. 
+NumberFormatter 를 입력과정에서 표현해 주기 위해 버튼 탭마다 NumberFormatter를 적용 시켜주었는데, 이때 "0." 구간에서 NumberFormatter 적용 시 발생하는 오류이다. 
+NumberFormatter 를 적용해주는 함수인 adaptNumberFormatter() 에서 "." 을 포함한 텍스트값이 들어오면 NumberFormatter를 적용하지 않도록 해 주었다
+**해결** 
+
+### - 초기화면에서 Operator버튼 탭시 계산오류
+screenLabel 의 현재값이 0 이고 , currentOperatorLabel의 현재값이 없다면, return 하도록 else if 문을 추가 해주었다. 
+**해결** 
+
+## 그 외 수정사항 
+
+### UITest 구현 
+더하기, 빼기, 나누기, 곱하기 등 간단한 UI에 대한 테스트 코드를 작성하였다.<br/>
+### enum 으로 NameSpace 만들기
+반복적으로 사용되는 상수들을 한 곳에 모아 관리할 수 있다. 
 
 
