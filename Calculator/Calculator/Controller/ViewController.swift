@@ -38,6 +38,7 @@ class ViewController: UIViewController {
     //MARK: - buttons
     
     @IBAction private func operandButtonDidTapped(_ sender: UIButton) {
+        guard screenLabel?.text != NameSpace.nanError else { allClear(); return }
         guard let textCount = screenLabel?.text?.count else { return }
         guard textCount <= 25 else { return }
         if screenLabel?.text == NameSpace.zero {
@@ -48,11 +49,13 @@ class ViewController: UIViewController {
     
     @IBAction func dotButtonDidTapped(_ sender: UIButton) {
         screenLabel?.text = (screenLabel?.text ?? emptyText) + "."
+        guard screenLabel?.text != NameSpace.nanError else { allClear(); return }
     }
     
     @IBAction func doubleZeroButtonDidTapped(_ sender: UIButton) {
         guard screenLabel?.text != zero else { return }
         adoptNumberFormatter(with: sender)
+        guard screenLabel?.text != NameSpace.nanError else { allClear(); return }
     }
     
     @IBAction private func operatorButtonDidTapped(_ sender: UIButton) {
@@ -107,6 +110,7 @@ class ViewController: UIViewController {
             screenLabel?.text = zero
             currentOperatorLabel?.text = emptyText
             removeAllIn(stack: historyStackView)
+            allClear()
         case "⁺⁄₋":
             guard let operand = screenLabel?.text else { return }
             guard screenLabel?.text != NameSpace.zero else { return }
@@ -180,5 +184,11 @@ class ViewController: UIViewController {
         var totalText = (screenLabel?.text ?? emptyText) + (sender.currentTitle ?? emptyText)
         totalText.removeEntire(character: ",")
         screenLabel?.text = numberFormatter.string(for: Double(totalText) ?? zero)
+    private func allClear() {
+        guard let historyStackView = historyStackView else { return }
+        alreadyCalculatedStackCount = 0
+        screenLabel?.text = NameSpace.zero
+        currentOperatorLabel?.text = NameSpace.emptyText
+        removeAllIn(stack: historyStackView)
     }
 }
