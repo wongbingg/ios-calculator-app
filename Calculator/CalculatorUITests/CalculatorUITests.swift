@@ -8,35 +8,53 @@
 import XCTest
 
 class CalculatorUITests: XCTestCase {
-
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        XCUIApplication().launch()
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        
     }
-
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    
+    func test_더하기() {
         let app = XCUIApplication()
-        app.launch()
-
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        app.buttons["1"].tap()
+        app.buttons["+"].tap()
+        app.buttons["6"].tap()
+        app.buttons["="].tap()
     }
-
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
-        }
+    
+    func test_빼기() {
+        let app = XCUIApplication()
+        app.staticTexts["1"].tap()
+        app.staticTexts["−"].tap()
+        app.staticTexts["6"].tap()
+        app.staticTexts["="].tap()
+    }
+    
+    func test_곱하기() {
+        let app = XCUIApplication()
+        app.staticTexts["9"].tap()
+        app.buttons["×"].tap()
+        app.buttons["9"].tap()
+        app.staticTexts["="].tap()
+    }
+    
+    func test_나누기() {
+        let app = XCUIApplication()
+        app.buttons["2"].tap()
+        app.buttons["7"].tap()
+        app.staticTexts["÷"].tap()
+        app.staticTexts["3"].tap()
+        app.buttons["="].tap()
+    }
+    
+    func test_나누기0일때_NaN오류를출력하는지() {
+        let app = XCUIApplication()
+        app.buttons["3"].tap()
+        app.buttons["÷"].tap()
+        app.buttons["0"].tap()
+        app.buttons["="].tap()
     }
 }
