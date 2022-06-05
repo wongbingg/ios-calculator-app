@@ -50,8 +50,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func dotButtonDidTapped(_ sender: UIButton) {
-        screenLabel?.text = (screenLabel?.text ?? emptyText) + "."
         guard screenLabel?.text != NameSpace.nanError else { allClear(); return }
+        guard screenLabel?.text?.contains(NameSpace.dot) == false else { return }
+        screenLabel?.text = (screenLabel?.text ?? NameSpace.emptyText) + NameSpace.dot
     }
     
     @IBAction func doubleZeroButtonDidTapped(_ sender: UIButton) {
