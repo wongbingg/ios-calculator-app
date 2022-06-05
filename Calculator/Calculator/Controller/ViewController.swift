@@ -42,6 +42,11 @@ class ViewController: UIViewController {
         screenLabel?.text = (screenLabel?.text ?? emptyText) + "."
     }
     
+    @IBAction func doubleZeroButtonDidTapped(_ sender: UIButton) {
+        guard screenLabel?.text != zero else { return }
+        screenLabel?.text = (screenLabel?.text ?? emptyText) + (sender.currentTitle ?? emptyText)
+    }
+    
     @IBAction private func operatorButtonDidTapped(_ sender: UIButton) {
         
         if screenLabel?.text != zero {
