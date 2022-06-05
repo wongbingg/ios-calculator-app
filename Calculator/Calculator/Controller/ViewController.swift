@@ -44,7 +44,9 @@ class ViewController: UIViewController {
         if screenLabel?.text == NameSpace.zero {
             screenLabel?.text = NameSpace.emptyText
         }
-        adoptNumberFormatter(with: sender)
+        var totalText = (screenLabel?.text ?? NameSpace.emptyText) + (sender.currentTitle ?? NameSpace.emptyText)
+        adoptNumberFormatter(to: &totalText)
+        screenLabel?.text = totalText
     }
     
     @IBAction func dotButtonDidTapped(_ sender: UIButton) {
@@ -53,9 +55,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction func doubleZeroButtonDidTapped(_ sender: UIButton) {
-        guard screenLabel?.text != zero else { return }
-        adoptNumberFormatter(with: sender)
         guard screenLabel?.text != NameSpace.nanError else { allClear(); return }
+        guard screenLabel?.text != NameSpace.zero else { return }
+        var totalText = (screenLabel?.text ?? NameSpace.emptyText) + (sender.currentTitle ?? NameSpace.emptyText)
+        adoptNumberFormatter(to: &totalText)
+        screenLabel?.text = totalText
     }
     
     @IBAction private func operatorButtonDidTapped(_ sender: UIButton) {
@@ -175,10 +179,12 @@ class ViewController: UIViewController {
         return textData
     }
     
-    private func adoptNumberFormatter(with sender: UIButton) {
-        var totalText = (screenLabel?.text ?? emptyText) + (sender.currentTitle ?? emptyText)
-        totalText.removeEntire(character: ",")
-        screenLabel?.text = numberFormatter.string(for: Double(totalText) ?? zero)
+    private func adoptNumberFormatter(to text: inout String) {
+        guard (screenLabel?.text ?? NameSpace.emptyText).contains(NameSpace.dot) == false else { return }
+        text.removeEntire(character: NameSpace.comma)
+        text = numberFormatter.string(for: Double(text) ?? NameSpace.zero) ?? NameSpace.emptyText
+    }
+    
     private func allClear() {
         guard let historyStackView = historyStackView else { return }
         alreadyCalculatedStackCount = 0
