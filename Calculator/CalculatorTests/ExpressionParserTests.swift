@@ -21,12 +21,12 @@ class ExpressionParserTests: XCTestCase {
     func test_문자열에서_operands_operators의_최소갯수_불만족시_notEnoughInput에러를_던지는지() {
         //given
         let str = "3 +"
-        let expectation = FormulaError.notEnoughInput
+        let expectation = CalculatorError.notEnoughInput
         //when
         var formula = ExpressionParser.parse(from: str)
         //then
         XCTAssertThrowsError(try formula.result()) { error in
-            XCTAssertEqual(expectation, error as? FormulaError)
+            XCTAssertEqual(expectation, error as? CalculatorError)
         }
     }
     
@@ -56,12 +56,12 @@ class ExpressionParserTests: XCTestCase {
     func test_문자열이주어졌을때_나누기0이있다면_dividedByZero에러를던지는지() {
         //given
         let str = "3 ÷ 0"
-        let expectation = OperatorError.dividedByZero
+        let expectation = CalculatorError.dividedByZero
         //when
         var formula = ExpressionParser.parse(from: str)
         //then
         XCTAssertThrowsError(try formula.result()) { error in
-            XCTAssertEqual(expectation, error as? OperatorError)
+            XCTAssertEqual(expectation, error as? CalculatorError)
         }
     }
     
