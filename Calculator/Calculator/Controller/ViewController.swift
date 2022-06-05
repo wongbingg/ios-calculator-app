@@ -31,7 +31,8 @@ class ViewController: UIViewController {
     //MARK: - buttons
     
     @IBAction private func operandButtonDidTapped(_ sender: UIButton) {
-        
+        guard let textCount = screenLabel?.text?.count else { return }
+        guard textCount <= 25 else { return }
         if screenLabel?.text == zero {
             screenLabel?.text = emptyText
         }
