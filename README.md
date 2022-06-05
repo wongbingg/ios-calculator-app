@@ -120,7 +120,7 @@
 <img src="https://i.imgur.com/c7G71QF.gif" width="200" height="400"/><img src="https://i.imgur.com/xBp50Dd.png" width="25" height="400"/><img src="https://i.imgur.com/JirfoPe.gif" width="200" height="400"/><img src="https://i.imgur.com/xBp50Dd.png" width="25" height="400"/><img src="https://i.imgur.com/iXxQRBa.gif" width="200" height="400"/>
 
 
-##🛠 Trouble Shooting
+## 🛠 Trouble Shooting 🛠
 
 ### - "00"버튼 탭할 때 00으로 표시되는 오류
 screenLabel 이 "0" 인 상태에서 "00" 버튼 탭시 00으로 바뀌는 오류 ,
