@@ -76,8 +76,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction private func equalButtonDidTapped(_ sender: UIButton) {
-        
-        guard currentOperatorLabel?.text != emptyText else { return }
+        guard currentOperatorLabel?.text != NameSpace.emptyText else { return }
         add(generateStackView(), to: historyStackView)
         currentOperatorLabel?.text = NameSpace.emptyText
         
