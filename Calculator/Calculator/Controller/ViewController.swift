@@ -6,6 +6,15 @@
 
 import UIKit
 
+enum NameSpace {
+    static let comma: Character = ","
+    static let dot = "."
+    static let zero = "0"
+    static let emptyText = ""
+    static let space = " "
+    static let nanError = "NaN"
+}
+
 class ViewController: UIViewController {
     
     @IBOutlet private weak var screenLabel: UILabel?
@@ -15,8 +24,6 @@ class ViewController: UIViewController {
     
     private var formula: Formula?
     private let numberFormatter = NumberFormatter()
-    private let zero = "0"
-    private let emptyText = ""
     private var alreadyCalculatedStackCount = 0
     
     override func viewDidLoad() {
@@ -25,7 +32,7 @@ class ViewController: UIViewController {
         numberFormatter.numberStyle = .decimal
         numberFormatter.maximumFractionDigits = -2
         numberFormatter.maximumIntegerDigits = 20
-        screenLabel?.text = zero
+        screenLabel?.text = NameSpace.zero
         removeAllIn(stack: historyStackView!)
     }
     //MARK: - buttons
@@ -33,8 +40,8 @@ class ViewController: UIViewController {
     @IBAction private func operandButtonDidTapped(_ sender: UIButton) {
         guard let textCount = screenLabel?.text?.count else { return }
         guard textCount <= 25 else { return }
-        if screenLabel?.text == zero {
-            screenLabel?.text = emptyText
+        if screenLabel?.text == NameSpace.zero {
+            screenLabel?.text = NameSpace.emptyText
         }
         adoptNumberFormatter(with: sender)
     }
@@ -50,13 +57,13 @@ class ViewController: UIViewController {
     
     @IBAction private func operatorButtonDidTapped(_ sender: UIButton) {
         
-        if screenLabel?.text != zero {
+        if screenLabel?.text != NameSpace.zero {
             add(generateStackView(), to: historyStackView)
-        } else if screenLabel?.text == zero && currentOperatorLabel?.text == emptyText {
+        } else if screenLabel?.text == NameSpace.zero && currentOperatorLabel?.text == NameSpace.emptyText {
             return
         }
         currentOperatorLabel?.text = sender.currentTitle
-        screenLabel?.text = zero
+        screenLabel?.text = NameSpace.zero
         goToBottomOfScrollView()
     }
     
@@ -64,7 +71,7 @@ class ViewController: UIViewController {
         
         guard currentOperatorLabel?.text != emptyText else { return }
         add(generateStackView(), to: historyStackView)
-        currentOperatorLabel?.text = emptyText
+        currentOperatorLabel?.text = NameSpace.emptyText
         
         guard let historyStackView = historyStackView else { return }
         formula = ExpressionParser.parse(from: fetchTextData(from: historyStackView, start: alreadyCalculatedStackCount))
@@ -78,7 +85,7 @@ class ViewController: UIViewController {
         } catch {
             switch error as? CalculatorError {
             case .dividedByZero:
-                screenLabel?.text = "NaN"
+                screenLabel?.text = NameSpace.nanError
             case .notEnoughInput:
                 print("입력값을 추가하세요.")
             case .emptyStack:
@@ -102,12 +109,12 @@ class ViewController: UIViewController {
             removeAllIn(stack: historyStackView)
         case "⁺⁄₋":
             guard let operand = screenLabel?.text else { return }
-            guard screenLabel?.text != zero else { return }
+            guard screenLabel?.text != NameSpace.zero else { return }
             var operandText = operand
             operandText.removeEntire(character: ",")
             screenLabel?.text = numberFormatter.string(for: (Double(operandText) ?? 0) * -1)
         case "CE":
-            screenLabel?.text = zero
+            screenLabel?.text = NameSpace.zero
         default:
             return
         }
@@ -157,12 +164,12 @@ class ViewController: UIViewController {
     }
     
     private func fetchTextData(from stackView: UIStackView, start: Int) -> String {
-        var textData = emptyText
+        var textData = NameSpace.emptyText
         for subStackView in stackView.arrangedSubviews[start...] {
             subStackView.subviews.forEach {
                 if let label = $0 as? UILabel {
-                    textData += " " + (label.text ?? emptyText)
-                    textData.removeEntire(character: ",")
+                    textData += NameSpace.space + (label.text ?? NameSpace.emptyText)
+                    textData.removeEntire(character: NameSpace.comma)
                 }
             }
         }
