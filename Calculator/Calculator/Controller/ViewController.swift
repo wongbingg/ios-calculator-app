@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         if screenLabel?.text == zero {
             screenLabel?.text = emptyText
         }
-        screenLabel?.text = (screenLabel?.text ?? emptyText) + (sender.currentTitle ?? emptyText)
+        adoptNumberFormatter(with: sender)
     }
     
     @IBAction func dotButtonDidTapped(_ sender: UIButton) {
@@ -44,7 +44,7 @@ class ViewController: UIViewController {
     
     @IBAction func doubleZeroButtonDidTapped(_ sender: UIButton) {
         guard screenLabel?.text != zero else { return }
-        screenLabel?.text = (screenLabel?.text ?? emptyText) + (sender.currentTitle ?? emptyText)
+        adoptNumberFormatter(with: sender)
     }
     
     @IBAction private func operatorButtonDidTapped(_ sender: UIButton) {
@@ -166,5 +166,11 @@ class ViewController: UIViewController {
             }
         }
         return textData
+    }
+    
+    private func adoptNumberFormatter(with sender: UIButton) {
+        var totalText = (screenLabel?.text ?? emptyText) + (sender.currentTitle ?? emptyText)
+        totalText.removeEntire(character: ",")
+        screenLabel?.text = numberFormatter.string(for: Double(totalText) ?? zero)
     }
 }
