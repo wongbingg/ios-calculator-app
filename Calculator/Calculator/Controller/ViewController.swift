@@ -46,7 +46,7 @@ class ViewController: UIViewController {
         
         if screenLabel?.text != zero {
             add(generateStackView(), to: historyStackView)
-        } else {
+        } else if screenLabel?.text == zero && currentOperatorLabel?.text == emptyText {
             return
         }
         currentOperatorLabel?.text = sender.currentTitle
